@@ -5,7 +5,7 @@ A plugin for Kerbal Space Program that adds a visual grid to hangars
 
 Have you ever been annoyed by ending up with misaligned engines or clubfooted landing gear after spending half-an-hour
 trying just to guess where to rotate to get them right?
-This mod adds grid to SPH and VAB and "laser" guides for an active part to clearly you see where things are wrong. Simple as it is.
+This mod adds grid to SPH and VAB and "laser" guides for an active part to let you clearly see where the things are wrong. Simple as it is.
 
 **Installation**
 
