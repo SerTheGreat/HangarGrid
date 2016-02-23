@@ -25,6 +25,7 @@ namespace HangarGrid
 	{
 		
 		private bool modEnabled = false;
+		private ApplicationLauncherButton launcherButton;
 		
 		GridManager gridManager = new GridManager();
 		DirectionGuidesManager guidesManager = new DirectionGuidesManager();
@@ -35,12 +36,15 @@ namespace HangarGrid
 		}
 		
 		private void addMenuButton() {
-			ApplicationLauncherButton button = ApplicationLauncher.Instance.AddModApplication(
-				onButtonTrue,
-				onButtonFalse,
-				null, null, null, null,
-				ApplicationLauncher.AppScenes.SPH | ApplicationLauncher.AppScenes.VAB,
-				(Texture)GameDatabase.Instance.GetTexture("HangarGrid/textures/toolbarbutton", false));
+			if (launcherButton != null) {
+				return;
+			}
+			launcherButton = ApplicationLauncher.Instance.AddModApplication(
+			onButtonTrue,
+			onButtonFalse,
+			null, null, null, null,
+			ApplicationLauncher.AppScenes.SPH | ApplicationLauncher.AppScenes.VAB,
+			(Texture)GameDatabase.Instance.GetTexture("HangarGrid/textures/toolbarbutton", false));
 		}
 		
 		private void onButtonTrue() {
@@ -53,6 +57,12 @@ namespace HangarGrid
 			gridManager.hideGrid();
 			guidesManager.hideGuides();
 			modEnabled = false;
+		}
+		
+		public void OnDestroy() {
+			if (launcherButton != null) {
+				ApplicationLauncher.Instance.RemoveModApplication(launcherButton);
+			}
 		}
 		
 		public void Update() {
