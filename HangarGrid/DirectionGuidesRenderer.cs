@@ -29,16 +29,16 @@ namespace HangarGrid
 		}
 		
 		public void updateGuides(Transform transform, Color color, float length) {
-			updateLine(guides[0], transform, Vector3.up, color, length);
-			updateLine(guides[1], transform, Vector3.right, color, length);
-			updateLine(guides[2], transform, Vector3.forward, color, length);
+			updateLine(guides[0], transform, Vector3.up, new Color(1f, 0f, 0.5f, 1f), length);
+			updateLine(guides[1], transform, Vector3.right, Color.red, length);
+			updateLine(guides[2], transform, Vector3.forward, new Color(0.3f, 0f, 1f, 1f), length);
 		}
 		
 		private GameObject initializeLineRenderer() {
 			GameObject gameObject = new GameObject();
 			LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>();
 			lineRenderer.material = lineMat;
-			lineRenderer.SetWidth(0.03f,0.01f);
+			lineRenderer.SetWidth(0.04f,0.004f);
 			lineRenderer.SetVertexCount(2);
 			return gameObject;
 		}
