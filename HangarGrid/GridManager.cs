@@ -30,8 +30,10 @@ namespace HangarGrid
 			}
 			gridEnabled = true;
 			this.bounds = bounds;
-			float distance;
-			bounds.IntersectRay(new Ray(bounds.center, Vector3.forward), out distance);
+			/*float distance1;
+			bounds.IntersectRay(new Ray(bounds.center, Vector3.down), out distance1);*/
+			float distance = Mathf.Max(new float[] {bounds.size.x, bounds.size.y, bounds.size.z});
+			ScreenMessages.PostScreenMessage("" + distance);
 			numberOfLines = 2 * (Mathf.RoundToInt(Math.Abs(distance) / step) + 1);
 			verticalXOYLines = new GameObject[numberOfLines];
 			horizontalXOYLines = new GameObject[numberOfLines];
@@ -96,14 +98,16 @@ namespace HangarGrid
 			Ray rayToEnd = new Ray(transform.TransformPoint(localPosition), transform.TransformDirection(localDirection));
 			float lengthToEnd;
 			float lengthToStart;
-			if (!bounds.IntersectRay(rayToStart, out lengthToStart) & !bounds.IntersectRay(rayToEnd, out lengthToEnd)) {
-				lineRenderer.SetColors(Color.clear, Color.clear);
-				return;
-			}
+			bool startFits = bounds.IntersectRay(rayToStart, out lengthToStart);
+			bool endFits = bounds.IntersectRay(rayToEnd, out lengthToEnd);
 			//Lengths are returned with inverse sign
 			lineRenderer.SetPosition(0, rayToStart.GetPoint(lengthToStart));
 			lineRenderer.SetPosition(1, rayToEnd.GetPoint(lengthToEnd));
 			lineRenderer.SetWidth(width, width);
+			if (!startFits && !endFits && !bounds.Contains(rayToStart.origin)) {
+				lineRenderer.SetColors(Color.clear, Color.clear);
+				return;
+			}
 			lineRenderer.SetColors(new Color(baseColor.r, baseColor.g, baseColor.b, opacity), new Color(baseColor.r, baseColor.g, baseColor.b, opacity));
 		}
 		

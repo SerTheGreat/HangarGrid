@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace HangarGrid
@@ -25,7 +26,11 @@ namespace HangarGrid
 	{
 		
 		private bool modEnabled = false;
+		private Part gridOriginPart = null;
 		private ApplicationLauncherButton launcherButton;
+		
+		//private Part prevSelectedPart = null;
+		//private Vector3 prevPosition = Vector3.zero;
 		
 		GridManager gridManager = new GridManager();
 		DirectionGuidesManager guidesManager = new DirectionGuidesManager();
@@ -65,32 +70,109 @@ namespace HangarGrid
 			}
 		}
 		
+		/*public void FixedUpdate() {
+			if ((prevSelectedPart != null) && (prevSelectedPart == EditorLogic.SelectedPart) && Input.GetKey(KeyCode.P)) {
+				Vector3 translation = Vector3.Project(EditorLogic.SelectedPart.transform.position - prevPosition, gridOriginPart.transform.up);
+				EditorLogic.SelectedPart.transform.Translate(translation, Space.World);
+			}
+			prevSelectedPart = EditorLogic.SelectedPart;
+			if (prevSelectedPart != null) {
+				prevPosition = prevSelectedPart.transform.position;
+			}
+		}*/
+		
 		public void Update() {
 			EditorLogic editor = EditorLogic.fetch;
 			Bounds bounds = editor.editorBounds;
-
-		    /*if ( Input.GetMouseButtonDown(0)){
-				 RaycastHit hit;
-    			 Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-    			Transform select = GameObject.FindWithTag("select").transform;
-    			if (Physics.Raycast (ray, hit, 100.0)){
-    				select.tag = "none";
-    				hit.collider.transform.tag = "select";
-    			}
-    		}				
-			}*/
-		    
-		    guidesManager.updateGuides(EditorLogic.SelectedPart, Color.red, 5f);
 			
-		    if (EditorLogic.RootPart != null) {
+			if (Input.GetKeyDown(KeyCode.J)) {
+				snapSelectedPart(Vector3.up);
+			}
+			
+			if (Input.GetKeyDown(KeyCode.N)) {
+				snapSelectedPart(Vector3.forward);
+			}
+			
+			if (Input.GetKeyDown(KeyCode.M)) {
+				snapSelectedPart(Vector3.right);
+			}
+			
+			//if (Input.GetKeyDown(KeyCode.Mouse0) && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))) {
+			if (Input.GetKeyDown(KeyCode.G)) {
+				gridOriginPart = GetPartUnderCursor();
+			}
+			
+		    if (gridOriginPart == null) {
+				gridOriginPart = EditorLogic.RootPart; 
+			}
+		    if (gridOriginPart != null) {
 		    	if (modEnabled) {
 		    		gridManager.showGrid(bounds);
 		    	}
-				gridManager.updateGrid(EditorLogic.RootPart);
+				gridManager.updateGrid(gridOriginPart);
 		    } else {
 		    	gridManager.hideGrid();
 			}
 			
+			guidesManager.updateGuides(EditorLogic.SelectedPart, Color.red, 5f);
+			
+		}
+		
+		private void drawDebugLine(Part part, Vector3 end) {
+			GameObject gameObject = part.gameObject;
+			Vector3 start = part.transform.position;
+			LineRenderer lineRenderer = gameObject.GetComponent<LineRenderer>();
+			if (lineRenderer == null) {
+				lineRenderer = gameObject.AddComponent<LineRenderer>();
+				lineRenderer.material = new Material (Shader.Find("Particles/Additive"));
+				lineRenderer.SetVertexCount(2);
+			}
+			lineRenderer.SetWidth(0.05f, 0.01f);
+			lineRenderer.SetColors(Color.white, Color.white);
+			lineRenderer.SetPosition(0, start);
+			lineRenderer.SetPosition(1, end);
+		}
+		
+		private void snapSelectedPart(Vector3 localDirection) {
+			if (gridOriginPart == null) {
+				return;
+			}
+			Part part = EditorLogic.SelectedPart;
+			if (part == null) {
+				part = GetPartUnderCursor();
+			}
+			if (part == null) {
+				return;
+			}
+			SymmetryMethod symMethod = part.symMethod;
+			Vector3 originalDirection = part.transform.TransformDirection(localDirection);
+			Vector3 targetAxis = Utils.closestAxis(originalDirection, gridOriginPart.transform);
+			Vector3 rotationAxis = Vector3.Cross(targetAxis, originalDirection);
+			float angle = Utils.directionIndependentAngle(Utils.SignedAngleBetween(originalDirection, targetAxis, rotationAxis));
+			part.transform.Rotate(rotationAxis, angle, Space.World);
+			foreach (Part symPart in part.symmetryCounterparts) {
+			    Vector3 symmetryRotationAxis;
+			    if (symMethod == SymmetryMethod.Mirror) {
+			    	//In the Mirror symmetry mode the rotation axis and angle should be mirrored in relation the the plane that is orthogonal to the line between parts
+			    	symmetryRotationAxis = Vector3.ProjectOnPlane(rotationAxis, symPart.transform.position - part.transform.position) * 2 - rotationAxis;
+			    } else {
+			    	//In the Radial symmetry mode all the rotation axis' should be the same in the local space of every part
+			    	Vector3 rotationAxisLocal = part.transform.InverseTransformDirection(rotationAxis);
+			    	symmetryRotationAxis = symPart.transform.TransformDirection(rotationAxisLocal);
+			    }
+				symPart.transform.Rotate(symmetryRotationAxis, (symMethod == SymmetryMethod.Radial ? 1 : -1) * angle, Space.World);
+			}
+		}
+		
+		//Thanks MachXXV
+		public static Part GetPartUnderCursor () {
+			var ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+			RaycastHit hit;
+
+			if (Physics.Raycast (ray, out hit)) {
+				return new List<Part>(EditorLogic.FindObjectsOfType<Part>()).Find (p => p.gameObject == hit.transform.gameObject);
+			}
+			return null;
 		}
 		
 		/*void OnPostRender() {
