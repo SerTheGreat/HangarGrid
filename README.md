@@ -25,9 +25,9 @@ Once you have rotated a part to approximately face the desired side, use the fol
 * **J** - aligns the part's up (pink guide) to the closest grid line
 * **N** - aligns the part's forward (violet guide) to the closest grid line
 * **M** - aligns the part's right (red guide) to the closest grid line
+* **G** - select a part under mouse pointer as the grid's origin
 
-If you are in the part's editing mode (rotation or offset) it is sufficient to just press the key. Otherwise you'll need to move a mouse pointer over desired part and then press.
-You may also select any part, attached or unattached, as the grids origin by pressing the **G** key while mouse is over the desired part. That would let you quickly align any part to any part.
+If you are in the part's editing mode (rotation or offset) it is sufficient to just press a key for alignment. Otherwise you'll need to move a mouse pointer over the desired part and then press.
 
 **Know issues**
 
