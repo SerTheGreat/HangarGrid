@@ -28,14 +28,16 @@ namespace HangarGrid
 		private bool modEnabled = false;
 		private Part gridOriginPart = null;
 		private ApplicationLauncherButton launcherButton;
+		private Configuration conf;
 		
-		//private Part prevSelectedPart = null;
+		private Part prevSelectedPart = null;
 		//private Vector3 prevPosition = Vector3.zero;
 		
 		GridManager gridManager = new GridManager();
 		DirectionGuidesManager guidesManager = new DirectionGuidesManager();
 		
 		public void Awake() {
+			conf = Configuration.Instance;
 			//GameEvents.onGUIApplicationLauncherReady.Add(addMenuButton);
 			addMenuButton();
 		}
@@ -84,21 +86,24 @@ namespace HangarGrid
 		public void Update() {
 			EditorLogic editor = EditorLogic.fetch;
 			Bounds bounds = editor.editorBounds;
-			
-			if (Input.GetKeyDown(KeyCode.J)) {
-				snapSelectedPart(Vector3.up);
+			if (EditorLogic.SelectedPart != null) {
+				prevSelectedPart = EditorLogic.SelectedPart;
 			}
 			
-			if (Input.GetKeyDown(KeyCode.N)) {
-				snapSelectedPart(Vector3.forward);
+			if (Input.GetKeyDown(conf.alignUpAxis)) {
+				alignSelectedPartToGrid(Vector3.up);
 			}
 			
-			if (Input.GetKeyDown(KeyCode.M)) {
-				snapSelectedPart(Vector3.right);
+			if (Input.GetKeyDown(conf.alignForwardAxis)) {
+				alignSelectedPartToGrid(Vector3.forward);
+			}
+			
+			if (Input.GetKeyDown(conf.alignRightAxis)) {
+				alignSelectedPartToGrid(Vector3.right);
 			}
 			
 			//if (Input.GetKeyDown(KeyCode.Mouse0) && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))) {
-			if (Input.GetKeyDown(KeyCode.G)) {
+			if (Input.GetKeyDown(conf.bindGridToPart)) {
 				gridOriginPart = GetPartUnderCursor();
 			}
 			
@@ -114,7 +119,7 @@ namespace HangarGrid
 		    	gridManager.hideGrid();
 			}
 			
-			guidesManager.updateGuides(EditorLogic.SelectedPart, Color.red, 5f);
+			guidesManager.updateGuides(prevSelectedPart, Color.red, 5f);
 			
 		}
 		
@@ -133,7 +138,7 @@ namespace HangarGrid
 			lineRenderer.SetPosition(1, end);
 		}
 		
-		private void snapSelectedPart(Vector3 localDirection) {
+		private void alignSelectedPartToGrid(Vector3 localDirection) {
 			if (gridOriginPart == null) {
 				return;
 			}
