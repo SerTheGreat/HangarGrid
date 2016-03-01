@@ -29,6 +29,8 @@ Once you have rotated a part to approximately face the desired side, use the fol
 
 If you are in the part's editing mode (rotation or offset) it is sufficient to just press a key for alignment. Otherwise you'll need to move a mouse pointer over the desired part and then press.
 
+You can change the keys by editing HangarGrid.cfg in the mod's folder. Valid values are listed inside the file.
+
 **Know issues**
 
 Autoalignment of a part desynchronizes it's rotation and position to the current rotation gizmo. So if you press an alignment key while in rotation mode, it is recommended to re-enable the mode by pressing "1" - "3", for example. Otherwise once you touch the gizmo again the part jumps to the gizmo's present position and rotation.
