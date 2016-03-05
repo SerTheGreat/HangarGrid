@@ -30,8 +30,6 @@ namespace HangarGrid
 			}
 			gridEnabled = true;
 			this.bounds = bounds;
-			/*float distance1;
-			bounds.IntersectRay(new Ray(bounds.center, Vector3.down), out distance1);*/
 			float distance = Mathf.Max(new float[] {bounds.size.x, bounds.size.y, bounds.size.z});
 			ScreenMessages.PostScreenMessage("" + distance);
 			numberOfLines = 2 * (Mathf.RoundToInt(Math.Abs(distance) / step) + 1);

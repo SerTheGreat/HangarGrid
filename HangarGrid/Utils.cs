@@ -41,5 +41,20 @@ namespace HangarGrid
     		return signed_angle;
 		}
 		
+		public void drawDebugLine(Part part, Vector3 end) {
+			GameObject gameObject = part.gameObject;
+			Vector3 start = part.transform.position;
+			LineRenderer lineRenderer = gameObject.GetComponent<LineRenderer>();
+			if (lineRenderer == null) {
+				lineRenderer = gameObject.AddComponent<LineRenderer>();
+				lineRenderer.material = new Material (Shader.Find("Particles/Additive"));
+				lineRenderer.SetVertexCount(2);
+			}
+			lineRenderer.SetWidth(0.05f, 0.01f);
+			lineRenderer.SetColors(Color.white, Color.white);
+			lineRenderer.SetPosition(0, start);
+			lineRenderer.SetPosition(1, end);
+		}
+		
 	}
 }
