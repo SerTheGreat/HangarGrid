@@ -27,7 +27,7 @@ Once you have rotated a part to approximately face the desired side, use the fol
 * **N** - aligns the part's forward (violet guide) to the closest grid line
 * **M** - aligns the part's right (red guide) to the closest grid line
 * **G** - select a part under mouse pointer as the grid's origin
-* **K** - toggles guides for symmetry (deKlutter). May be useful when working with many radially symmetrical parts creating a bunch of guides which makes them complex to use. This button let's you see ones only for the original part.
+* **K** - toggles guides for symmetry (deKlutter). May be useful when working with many radially symmetrical parts creating a bunch of guides which makes them complex to use. This key let's you see the ones for the original part only.
 
 When using the separate keys for alignment (J, N, M), if you are in the part's editing mode (rotation or offset) it is sufficient to just press a key. Otherwise you'll need to move the mouse pointer over the desired part and then press.
 
