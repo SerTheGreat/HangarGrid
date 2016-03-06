@@ -26,6 +26,7 @@ namespace HangarGrid
 	{
 		
 		private bool modEnabled = false;
+		private bool symmetryMode = true;
 		private Part gridOriginPart = null;
 		private ApplicationLauncherButton launcherButton;
 		private Configuration conf;
@@ -90,6 +91,11 @@ namespace HangarGrid
 				prevSelectedPart = EditorLogic.SelectedPart;
 			}
 			
+			if (Input.GetKeyDown(KeyCode.K)) {
+				symmetryMode = !symmetryMode;
+				guidesManager.setSymmetryMode(symmetryMode);
+			}
+			
 			if (Input.GetKeyDown(conf.alignUpAxis)) {
 				alignSelectedPartToGrid(Vector3.up);
 			}
@@ -102,7 +108,15 @@ namespace HangarGrid
 				alignSelectedPartToGrid(Vector3.right);
 			}
 			
-			//if (Input.GetKeyDown(KeyCode.Mouse0) && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))) {
+			if (Input.GetKeyDown(conf.alignToGrid)) {
+				Part part;
+				Vector3 localDirection;
+				guidesManager.findClosestDirectionOnScreen(Input.mousePosition, conf.guideSelectionTolerance, out part, out localDirection);
+				if (part != null) {
+					alignPartToGrid(part, localDirection);
+				}
+			}
+			
 			if (Input.GetKeyDown(conf.bindGridToPart)) {
 				gridOriginPart = GetPartUnderCursor();
 			}
@@ -123,30 +137,19 @@ namespace HangarGrid
 			
 		}
 		
-		private void drawDebugLine(Part part, Vector3 end) {
-			GameObject gameObject = part.gameObject;
-			Vector3 start = part.transform.position;
-			LineRenderer lineRenderer = gameObject.GetComponent<LineRenderer>();
-			if (lineRenderer == null) {
-				lineRenderer = gameObject.AddComponent<LineRenderer>();
-				lineRenderer.material = new Material (Shader.Find("Particles/Additive"));
-				lineRenderer.SetVertexCount(2);
-			}
-			lineRenderer.SetWidth(0.05f, 0.01f);
-			lineRenderer.SetColors(Color.white, Color.white);
-			lineRenderer.SetPosition(0, start);
-			lineRenderer.SetPosition(1, end);
-		}
-		
 		private void alignSelectedPartToGrid(Vector3 localDirection) {
-			if (gridOriginPart == null) {
-				return;
-			}
 			Part part = EditorLogic.SelectedPart;
 			if (part == null) {
 				part = GetPartUnderCursor();
 			}
 			if (part == null) {
+				return;
+			}
+			alignPartToGrid(part, localDirection);
+		}
+		
+		private void alignPartToGrid(Part part, Vector3 localDirection) {
+			if (gridOriginPart == null) {
 				return;
 			}
 			SymmetryMethod symMethod = part.symMethod;
