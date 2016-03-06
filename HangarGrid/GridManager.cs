@@ -31,7 +31,6 @@ namespace HangarGrid
 			gridEnabled = true;
 			this.bounds = bounds;
 			float distance = Mathf.Max(new float[] {bounds.size.x, bounds.size.y, bounds.size.z});
-			ScreenMessages.PostScreenMessage("" + distance);
 			numberOfLines = 2 * (Mathf.RoundToInt(Math.Abs(distance) / step) + 1);
 			verticalXOYLines = new GameObject[numberOfLines];
 			horizontalXOYLines = new GameObject[numberOfLines];
