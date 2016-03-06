@@ -22,11 +22,12 @@ The guides have distinct colors for each direction. You can easily remember them
 * Pink for Up (almost the same as the thrust vector)
 
 Once you have rotated a part to approximately face the desired side, use the following hotkeys for autoalign the desired part's axis to be parallel to the closest grid line (regardless of direction):
+* **L** - aligns the part by a guide at the mouse pointer to the closest grid line
 * **J** - aligns the part's up (pink guide) to the closest grid line
 * **N** - aligns the part's forward (violet guide) to the closest grid line
 * **M** - aligns the part's right (red guide) to the closest grid line
 * **G** - select a part under mouse pointer as the grid's origin
-
+* **K** - toggles guides for symmetry (deKlutter). May be useful when working with many radially symmetrical parts creating a bunch of guides which makes them complex to use. This button let's you see ones only for the original part.
 If you are in the part's editing mode (rotation or offset) it is sufficient to just press a key for alignment. Otherwise you'll need to move a mouse pointer over the desired part and then press.
 
 You can change the keys by editing HangarGrid.cfg in the mod's folder. Valid values are listed inside the file.
