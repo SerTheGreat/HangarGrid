@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using KSP.UI.Screens;
 
 namespace HangarGrid
 {
@@ -89,6 +90,16 @@ namespace HangarGrid
 			Bounds bounds = editor.editorBounds;
 			if (EditorLogic.SelectedPart != null) {
 				prevSelectedPart = EditorLogic.SelectedPart;
+			}
+			
+			if (Input.GetKeyDown(conf.masterToggle)) {
+				if (!modEnabled) {
+					//onButtonTrue();
+					launcherButton.SetTrue(true);
+				} else {
+					//onButtonFalse();
+					launcherButton.SetFalse(true);
+				}
 			}
 			
 			if (Input.GetKeyDown(KeyCode.K)) {
