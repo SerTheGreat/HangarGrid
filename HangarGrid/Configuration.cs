@@ -15,6 +15,7 @@ namespace HangarGrid
 		private KeyCode defaultAlignToGrid = KeyCode.L;
 		private KeyCode defaultToggleSymmetryGuides = KeyCode.K;
 		private KeyCode defaultBindGridToPart = KeyCode.G;
+		private KeyCode defaultMasterToggle = KeyCode.Period;
 		
 		public KeyCode alignUpAxis;
 		public KeyCode alignForwardAxis;
@@ -22,6 +23,7 @@ namespace HangarGrid
 		public KeyCode alignToGrid;
 		public KeyCode toggleSymmetryGuides; 
 		public KeyCode bindGridToPart;
+		public KeyCode masterToggle = KeyCode.Period;
 		public int guideSelectionTolerance = 20;
 		
 		private static Configuration instance = null;
@@ -54,6 +56,7 @@ namespace HangarGrid
 					tryParseKeyCode(node.GetValue("alignToGrid"), defaultAlignToGrid, out alignToGrid);
 					tryParseKeyCode(node.GetValue("toggleSymmetryGuides") , defaultToggleSymmetryGuides, out toggleSymmetryGuides);
 					tryParseKeyCode(node.GetValue("bindGridToPart"), defaultBindGridToPart, out bindGridToPart);
+					tryParseKeyCode(node.GetValue("masterToggle"), defaultMasterToggle, out masterToggle);
 				}
 			}
 		}
