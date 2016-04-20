@@ -22,6 +22,7 @@ The guides have distinct colors for each direction. You can easily remember them
 * Pink for Up (almost the same as the thrust vector)
 
 Once you have rotated a part to approximately face the desired side, use the following hotkeys for autoalign the desired part's axis to be parallel to the closest grid line (regardless of direction):
+* **Period([.])** toggles the grid on and off
 * **L** - aligns the part by a guide at the mouse pointer to the closest grid line
 * **J** - aligns the part's up (pink guide) to the closest grid line
 * **N** - aligns the part's forward (violet guide) to the closest grid line
