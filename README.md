@@ -30,6 +30,7 @@ There are also individual alignment keys for each guide inherited from older ver
 * **J** - aligns the part's up (pink guide) to the closest grid line
 * **N** - aligns the part's forward (violet guide) to the closest grid line
 * **M** - aligns the part's right (red guide) to the closest grid line 
+
 When using these keys for alignment (J, N, M), if you are in the part's editing mode (rotation or offset) it is sufficient to just press a key. Otherwise you'll need to move the mouse pointer over the desired part and then press.
 
 You can change the keys by editing HangarGrid.cfg in the mod's folder. Valid values are listed inside the file.
