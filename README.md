@@ -22,8 +22,9 @@ The guides have distinct colors for each direction. You can easily remember them
 * Pink for Up (almost the same as the thrust vector)
 
 Once you have rotated a part to approximately face the desired side, use the following hotkeys for autoalign the desired part's axis to be parallel to the closest grid line (regardless of direction):
+* **Period ( [.] )** - toggles the grid on and off
+* **G** - selects a part under mouse pointer as the grid's origin
 * **L** - aligns the part by a guide at the mouse pointer to the closest grid line
-* **G** - select a part under mouse pointer as the grid's origin
 * **K** - toggles guides for symmetry (deKlutter). May be useful when working with many radially symmetrical parts creating a bunch of guides which makes them complex to use. This key let's you see the ones for the original part only.
 
 There are also individual alignment keys for each guide inherited from older versions and thus not as convenient:
