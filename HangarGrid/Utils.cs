@@ -48,10 +48,11 @@ namespace HangarGrid
 			if (lineRenderer == null) {
 				lineRenderer = gameObject.AddComponent<LineRenderer>();
 				lineRenderer.material = new Material (Shader.Find("Particles/Additive"));
-				lineRenderer.SetVertexCount(2);
+				lineRenderer.positionCount = 2;
 			}
-			lineRenderer.SetWidth(0.05f, 0.01f);
-			lineRenderer.SetColors(Color.white, Color.white);
+			lineRenderer.startWidth = 0.05f;
+			lineRenderer.endWidth = 0.01f;
+			lineRenderer.startColor = lineRenderer.endColor = Color.white;
 			lineRenderer.SetPosition(0, start);
 			lineRenderer.SetPosition(1, end);
 		}

@@ -22,6 +22,9 @@ namespace HangarGrid
 	///You should have received a copy of the GNU General Public License
     ///along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	/// </summary>
+
+	//TODO Put the shader being used in the mod's assets
+
 	[KSPAddon(KSPAddon.Startup.EditorAny, false)]
 	public class HangarGrid : MonoBehaviour
 	{
@@ -93,6 +96,7 @@ namespace HangarGrid
 			}
 			
 			if (Input.GetKeyDown(conf.masterToggle)) {
+				//Debug.Log("[HANGAR GRID] " + GUI.GetNameOfFocusedControl());
 				if (!modEnabled) {
 					//onButtonTrue();
 					launcherButton.SetTrue(true);

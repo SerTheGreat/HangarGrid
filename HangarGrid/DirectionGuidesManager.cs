@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace HangarGrid
 {
@@ -89,7 +88,7 @@ namespace HangarGrid
 			}
 			foreach (Part part in getPartList(activePart)) {
 				DirectionGuidesRenderer guidesRenderer = part.gameObject.GetComponent<DirectionGuidesRenderer>();
-				GameObject.DestroyObject(guidesRenderer);
+				UnityEngine.Object.Destroy(guidesRenderer);
 			}			
 		}
 

@@ -14,7 +14,7 @@ namespace HangarGrid
 		
 		int numberOfLines;
 		float step = 1f;
-		Material lineMaterial = new Material (Shader.Find("Particles/Additive"));
+		Material lineMaterial = new Material (Shader.Find("Legacy Shaders/Particles/Additive"));
 		Bounds bounds;
 		GameObject[] verticalXOYLines;
 		GameObject[] horizontalXOYLines;
@@ -66,7 +66,7 @@ namespace HangarGrid
 				GameObject gameObject = new GameObject();
 				LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>();
 				lineRenderer.material = lineMaterial;
-				lineRenderer.SetVertexCount(2);
+				lineRenderer.positionCount = 2;
 				return gameObject;
 		}
 		
@@ -100,12 +100,12 @@ namespace HangarGrid
 			//Lengths are returned with inverse sign
 			lineRenderer.SetPosition(0, rayToStart.GetPoint(lengthToStart));
 			lineRenderer.SetPosition(1, rayToEnd.GetPoint(lengthToEnd));
-			lineRenderer.SetWidth(width, width);
+			lineRenderer.startWidth = lineRenderer.endWidth = width;
 			if (!startFits && !endFits && !bounds.Contains(rayToStart.origin)) {
-				lineRenderer.SetColors(Color.clear, Color.clear);
+				lineRenderer.startColor = lineRenderer.endColor = Color.clear;
 				return;
 			}
-			lineRenderer.SetColors(new Color(baseColor.r, baseColor.g, baseColor.b, opacity), new Color(baseColor.r, baseColor.g, baseColor.b, opacity));
+			lineRenderer.startColor = lineRenderer.endColor = new Color(baseColor.r, baseColor.g, baseColor.b, opacity);
 		}
 		
 		public void clearGrid() {

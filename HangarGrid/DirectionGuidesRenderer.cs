@@ -11,7 +11,7 @@ namespace HangarGrid
 	{
 		
 		float guideLength = 5;
-		Material lineMat = new Material (Shader.Find("Particles/Additive"));
+		Material lineMat = new Material (Shader.Find("Legacy Shaders/Particles/Additive"));
 		Vector3[] guideLocalDirections = new Vector3[] {Vector3.up, Vector3.forward, Vector3.right};
 		Color[] guideColors = new Color[] {new Color(1f, 0f, 0.5f, 1f), new Color(0.3f, 0f, 1f, 1f), Color.red};
 		GameObject[] guides;
@@ -87,14 +87,15 @@ namespace HangarGrid
 			GameObject gameObject = new GameObject();
 			LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>();
 			lineRenderer.material = lineMat;
-			lineRenderer.SetWidth(0.04f,0.004f);
-			lineRenderer.SetVertexCount(2);
+			lineRenderer.startWidth = 0.04f;
+			lineRenderer.endWidth = 0.004f;
+			lineRenderer.positionCount = 2;
 			return gameObject;
 		}
 		
 		private void updateLine(GameObject gameObject, Vector3 direction, Color color) {
 			LineRenderer lineRenderer = gameObject.GetComponent<LineRenderer>();
-			lineRenderer.SetColors(color, color);
+			lineRenderer.startColor = lineRenderer.endColor = color;
 			lineRenderer.SetPosition(0, transform.TransformPoint(-direction * guideLength));
 			lineRenderer.SetPosition(1, transform.TransformPoint(direction * guideLength));		
 		}
